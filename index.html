@@ -69,8 +69,6 @@ body::before {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-
-  /* formas abstractas con gradientes radiales */
   background:
     radial-gradient(ellipse 70% 50% at 15% 20%,  rgba(79,124,255,.13) 0%, transparent 65%),
     radial-gradient(ellipse 50% 60% at 85% 75%,  rgba(124,58,237,.10) 0%, transparent 60%),
@@ -85,13 +83,11 @@ body::after {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* ruido sutil de grano */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   opacity: .6;
 }
 
-/* en tema claro los orbes son más suaves */
 html.light body::before {
   background:
     radial-gradient(ellipse 70% 50% at 15% 20%,  rgba(37,99,235,.08)  0%, transparent 65%),
@@ -101,7 +97,6 @@ html.light body::before {
     radial-gradient(ellipse 55% 30% at 90% 30%,  rgba(220,38,38,.04)  0%, transparent 50%);
 }
 
-/* el contenido queda por encima del fondo */
 header, .station-bar, .container, .overlay { position: relative; z-index: 1; }
 
 /* ─── HEADER ─── */
@@ -117,9 +112,7 @@ header {
   top: 0;
   z-index: 50;
   backdrop-filter: blur(16px);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.05) inset,
-    0 4px 20px rgba(0,0,0,.4);
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 4px 20px rgba(0,0,0,.4);
 }
 
 .header-left { display: flex; align-items: center; gap: 12px; }
@@ -203,20 +196,12 @@ header {
   position: relative;
   overflow: hidden;
   transition: transform .2s, box-shadow .2s, border-color .2s;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.06) inset,
-    0 -1px 0 rgba(0,0,0,.3) inset,
-    0 8px 24px rgba(0,0,0,.35),
-    0 2px 4px rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 8px 24px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.2);
 }
 .stat:hover {
   transform: translateY(-3px) scale(1.02);
   border-color: var(--border2);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.08) inset,
-    0 -1px 0 rgba(0,0,0,.3) inset,
-    0 16px 40px rgba(0,0,0,.45),
-    0 4px 8px rgba(0,0,0,.25);
+  box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 -1px 0 rgba(0,0,0,.3) inset, 0 16px 40px rgba(0,0,0,.45), 0 4px 8px rgba(0,0,0,.25);
 }
 
 .stat::before {
@@ -230,7 +215,6 @@ header {
 .stat.s-red::before   { background: linear-gradient(90deg, var(--red), #f97316);   box-shadow: 0 0 12px rgba(244,63,94,.6); }
 .stat.s-green::before { background: linear-gradient(90deg, var(--green), #06b6d4); box-shadow: 0 0 12px rgba(34,197,94,.6); }
 
-/* reflejo de luz lateral izquierda */
 .stat::after {
   content: '';
   position: absolute;
@@ -259,22 +243,12 @@ header {
   overflow: hidden;
   margin-bottom: 20px;
   transition: transform .2s, box-shadow .2s, border-color .2s;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.06) inset,
-    0 -2px 0 rgba(0,0,0,.25) inset,
-    1px 0 0 rgba(255,255,255,.04) inset,
-    0 8px 28px rgba(0,0,0,.35),
-    0 2px 6px rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 -2px 0 rgba(0,0,0,.25) inset, 1px 0 0 rgba(255,255,255,.04) inset, 0 8px 28px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.2);
 }
 .card:hover {
   transform: translateY(-2px);
   border-color: var(--border2);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.08) inset,
-    0 -2px 0 rgba(0,0,0,.3) inset,
-    1px 0 0 rgba(255,255,255,.05) inset,
-    0 16px 40px rgba(0,0,0,.45),
-    0 4px 10px rgba(0,0,0,.25);
+  box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 -2px 0 rgba(0,0,0,.3) inset, 1px 0 0 rgba(255,255,255,.05) inset, 0 16px 40px rgba(0,0,0,.45), 0 4px 10px rgba(0,0,0,.25);
 }
 
 .card-header {
@@ -295,21 +269,16 @@ header {
   display: flex; align-items: center; gap: 8px;
   text-shadow: 0 1px 3px rgba(0,0,0,.3);
 }
-/* ─── ICONOS 3D ─── */
 .icon-3d {
   display: flex; align-items: center; justify-content: center;
   font-size: 28px;
-  filter:
-    drop-shadow(0 2px 0 rgba(0,0,0,.4))
-    drop-shadow(0 4px 8px rgba(0,0,0,.3));
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.4)) drop-shadow(0 4px 8px rgba(0,0,0,.3));
   transition: transform .2s, filter .2s;
   line-height: 1;
 }
 .icon-3d:hover {
   transform: translateY(-2px) scale(1.08);
-  filter:
-    drop-shadow(0 4px 2px rgba(0,0,0,.45))
-    drop-shadow(0 6px 14px rgba(0,0,0,.35));
+  filter: drop-shadow(0 4px 2px rgba(0,0,0,.45)) drop-shadow(0 6px 14px rgba(0,0,0,.35));
 }
 .icon-3d-sm {
   font-size: 18px;
@@ -319,9 +288,7 @@ header {
   font-size: 36px;
   margin-bottom: 8px;
   display: block;
-  filter:
-    drop-shadow(0 3px 0 rgba(0,0,0,.3))
-    drop-shadow(0 5px 10px rgba(0,0,0,.25));
+  filter: drop-shadow(0 3px 0 rgba(0,0,0,.3)) drop-shadow(0 5px 10px rgba(0,0,0,.25));
 }
 
 .card-title-icon {
@@ -364,19 +331,13 @@ input, select, textarea {
   outline: none;
   width: 100%;
   transition: border-color .15s, box-shadow .15s, transform .1s;
-  box-shadow:
-    0 2px 0 rgba(0,0,0,.2) inset,
-    0 1px 0 rgba(255,255,255,.04) inset,
-    0 2px 6px rgba(0,0,0,.2);
+  box-shadow: 0 2px 0 rgba(0,0,0,.2) inset, 0 1px 0 rgba(255,255,255,.04) inset, 0 2px 6px rgba(0,0,0,.2);
 }
 input::placeholder { color: var(--muted); }
 input:focus, select:focus {
   border-color: var(--accent);
   border-bottom-color: var(--accent-h);
-  box-shadow:
-    0 2px 0 rgba(0,0,0,.15) inset,
-    0 0 0 3px rgba(79,124,255,.18),
-    0 4px 12px rgba(79,124,255,.2);
+  box-shadow: 0 2px 0 rgba(0,0,0,.15) inset, 0 0 0 3px rgba(79,124,255,.18), 0 4px 12px rgba(79,124,255,.2);
   transform: translateY(-1px);
 }
 select option { background: var(--surface2); }
@@ -409,46 +370,38 @@ select option { background: var(--surface2); }
 .btn-primary {
   background: linear-gradient(175deg, #6b96ff 0%, var(--accent) 40%, #3050c8 100%);
   color: #fff;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.2) inset,
-    0 -2px 0 rgba(0,0,0,.3) inset,
-    0 6px 20px rgba(79,124,255,.45),
-    0 2px 4px rgba(0,0,0,.3);
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 -2px 0 rgba(0,0,0,.3) inset, 0 6px 20px rgba(79,124,255,.45), 0 2px 4px rgba(0,0,0,.3);
   border-bottom: 2px solid #2040a0;
 }
 .btn-success {
   background: linear-gradient(175deg, #4ade80 0%, #22c55e 40%, #15803d 100%);
   color: #fff;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.2) inset,
-    0 -2px 0 rgba(0,0,0,.3) inset,
-    0 6px 18px rgba(34,197,94,.4),
-    0 2px 4px rgba(0,0,0,.3);
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 -2px 0 rgba(0,0,0,.3) inset, 0 6px 18px rgba(34,197,94,.4), 0 2px 4px rgba(0,0,0,.3);
   border-bottom: 2px solid #166534;
 }
 .btn-danger {
   background: linear-gradient(175deg, #fb7185 0%, var(--red) 40%, #9f1239 100%);
   color: #fff;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.15) inset,
-    0 -2px 0 rgba(0,0,0,.3) inset,
-    0 4px 14px rgba(244,63,94,.35),
-    0 2px 4px rgba(0,0,0,.3);
+  box-shadow: 0 1px 0 rgba(255,255,255,.15) inset, 0 -2px 0 rgba(0,0,0,.3) inset, 0 4px 14px rgba(244,63,94,.35), 0 2px 4px rgba(0,0,0,.3);
   border-bottom: 2px solid #881337;
-  border-left: none; border-right: none; border-top: none;
 }
 .btn-ghost {
   background: linear-gradient(175deg, var(--surface2) 0%, var(--surface) 100%);
   color: var(--text2);
   border: 1px solid var(--border);
   border-bottom: 2px solid var(--border2);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.06) inset,
-    0 4px 12px rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 4px 12px rgba(0,0,0,.2);
 }
 .btn-ghost:hover { border-color: var(--border2); color: var(--text); }
 .btn-ghost::after { opacity: .5; }
 .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 7px; }
+.btn-sync {
+  background: linear-gradient(175deg, #60a5fa 0%, #3b82f6 40%, #1d4ed8 100%);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 -2px 0 rgba(0,0,0,.3) inset, 0 6px 20px rgba(59,130,246,.4), 0 2px 4px rgba(0,0,0,.3);
+  border-bottom: 2px solid #1e40af;
+}
+.btn-sync:hover { filter: brightness(1.15); }
 
 /* ─── TABLE ─── */
 .table-wrap { overflow-x: auto; }
@@ -541,6 +494,8 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 #toast.show { opacity: 1; transform: translateY(0); }
 #toast.err  { border-color: rgba(244,63,94,.4); }
 #toast.err::before { content: '✕'; color: var(--red); }
+#toast.success { border-color: rgba(34,197,94,.4); }
+#toast.success::before { content: '✓'; color: var(--green); }
 
 /* ─── MODAL ─── */
 .overlay {
@@ -623,10 +578,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 .header-right {
   display: flex; align-items: center; gap: 10px;
 }
-/* ─── HEADER RIGHT ─── */
-.header-right {
-  display: flex; align-items: center; gap: 10px;
-}
 
 /* ─── BACKUP BUTTONS ─── */
 .backup-btns {
@@ -664,7 +615,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
   transition: all .3s;
 }
 
-/* rejilla técnica de fondo */
 .station-bar::before {
   content: '';
   position: absolute; inset: 0;
@@ -675,7 +625,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
   pointer-events: none;
 }
 
-/* viñeta oscura en los bordes */
 .station-bar::after {
   content: '';
   position: absolute; inset: 0;
@@ -683,7 +632,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
   pointer-events: none;
 }
 
-/* TEMA CLARO */
 html.light .station-bar {
   background: linear-gradient(135deg, #dde6f8 0%, #ccd4f0 100%);
   box-shadow: 0 4px 24px rgba(37,99,235,.15), 0 2px 0 rgba(37,99,235,.15);
@@ -697,7 +645,6 @@ html.light .station-bar::after {
   background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(200,212,240,.5) 100%);
 }
 
-/* contenedor centrado con líneas laterales decorativas */
 .station-bar-inner {
   position: relative;
   z-index: 1;
@@ -708,7 +655,6 @@ html.light .station-bar::after {
   padding: 32px 40px;
 }
 
-/* líneas laterales tipo "placa técnica" */
 .station-bar-inner::before,
 .station-bar-inner::after {
   content: '';
@@ -728,7 +674,6 @@ html.light .station-bar-inner::after {
   background: linear-gradient(270deg, transparent, rgba(37,99,235,.35));
 }
 
-/* etiqueta superior "ESTACIÓN CNC" */
 .station-label {
   position: absolute;
   top: 10px; left: 50%; transform: translateX(-50%);
@@ -749,7 +694,6 @@ html.light .station-label {
   border-color: rgba(37,99,235,.15);
 }
 
-/* ── TEXTO 3D ── */
 .station-name {
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(48px, 9vw, 100px);
@@ -758,7 +702,6 @@ html.light .station-label {
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
-
   background: linear-gradient(180deg,
     #ffffff  0%,
     #c8d8ff 20%,
@@ -768,7 +711,6 @@ html.light .station-label {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-
   filter:
     drop-shadow(0 2px 0 rgba(10,40,160,.95))
     drop-shadow(0 4px 0 rgba(8,28,120,.85))
@@ -822,7 +764,6 @@ html.light .station-name.placeholder {
   -webkit-text-fill-color: rgba(37,99,235,.3);
 }
 
-/* botón editar rediseñado */
 .station-edit-btn {
   position: absolute;
   bottom: 10px; right: 16px;
@@ -865,6 +806,7 @@ html.light .station-edit-btn:hover {
   .stat-n { font-size: 24px; }
   .tab { padding: 6px 12px; font-size: 12px; }
   td, th { padding: 10px 12px; }
+  .station-bar-inner { padding: 20px 16px; }
 }
 </style>
 </head>
@@ -931,7 +873,7 @@ html.light .station-edit-btn:hover {
         <div class="form-grid">
           <div class="field">
             <label>Herramienta *</label>
-            <input id="pr-h" placeholder="Nombre de la herramienta" />
+            <input id="pr-h" placeholder="Nombre de la herramienta" required/>
           </div>
           <div class="field">
             <label>Código / Serie</label>
@@ -950,8 +892,11 @@ html.light .station-edit-btn:hover {
             <input id="pr-obs" placeholder="Estado al salir, accesorios incluidos…" />
           </div>
         </div>
-        <div style="margin-top:18px">
+        <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
           <button class="btn btn-primary" onclick="guardarPR()">Registrar préstamo</button>
+          <button class="btn btn-sync" onclick="syncSinglePrestamo()" title="Enviar este préstamo a Google Sheets">
+            📤 Sincronizar
+          </button>
         </div>
       </div>
     </div>
@@ -963,9 +908,14 @@ html.light .station-edit-btn:hover {
           <div class="card-title-icon">🏭</div>
           Préstamos activos
         </div>
-        <div class="search-wrap">
-          <span class="ico">🔍</span>
-          <input id="q-pr" placeholder="Buscar…" oninput="renderPR()" />
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <div class="search-wrap">
+            <span class="ico">🔍</span>
+            <input id="q-pr" placeholder="Buscar…" oninput="renderPR()" />
+          </div>
+          <button class="btn btn-sync btn-sm" onclick="syncAllPrestamos()">
+            📤 Sincronizar todos
+          </button>
         </div>
       </div>
       <div class="table-wrap" id="tbl-pr"></div>
@@ -977,7 +927,7 @@ html.light .station-edit-btn:hover {
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <div class="card-title-icon">�️</div>
+          <div class="card-title-icon">📜</div>
           Historial completo
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -991,9 +941,52 @@ html.light .station-edit-btn:hover {
             <option value="devuelto">Devueltos</option>
           </select>
           <button class="btn btn-ghost btn-sm" onclick="limpiarHis()">Limpiar</button>
+          <button class="btn btn-sync btn-sm" onclick="syncHistorial()">
+            📤 Sincronizar
+          </button>
         </div>
       </div>
       <div class="table-wrap" id="tbl-hi"></div>
+    </div>
+  </div>
+
+  <!-- ══════ CONFIGURACIÓN GOOGLE SHEETS ══════ -->
+  <div class="card" style="margin-top:30px;">
+    <div class="card-header">
+      <div class="card-title">
+        <div class="card-title-icon">📊</div>
+        Google Sheets
+      </div>
+      <button class="btn btn-sm btn-ghost" onclick="testConnection()">
+        🔌 Probar conexión
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>URL de AppScript</label>
+          <input type="url" id="webAppUrl" 
+                 placeholder="https://script.google.com/macros/s/AKfycbyD5ALmdTWV8fSDhM_VVIIk9hJenuHXaWrh_mKHwZUkqfkQ_af7f4VEiZdLwIvBfK4Peg/exec"
+                 value="" />
+        </div>
+        <div class="field">
+          <label>Estado de conexión</label>
+          <span id="connectionStatus" style="padding: 8px 12px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); color: var(--text2);">
+            ⚪ No conectado
+          </span>
+        </div>
+      </div>
+      <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn btn-sync" onclick="syncAllToSheets()">
+          📤 Sincronizar todos los datos
+        </button>
+        <button class="btn btn-success" onclick="syncPrestamosToSheets()">
+          📤 Sincronizar préstamos
+        </button>
+        <button class="btn btn-success" onclick="syncDevolucionesToSheets()">
+          📤 Sincronizar devoluciones
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1003,7 +996,7 @@ html.light .station-edit-btn:hover {
 <div class="overlay" id="modal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-icon">�</div>
+      <div class="modal-icon">🔄</div>
       <div class="modal-title">Registrar devolución</div>
     </div>
     <input type="hidden" id="dev-id" />
@@ -1056,6 +1049,7 @@ html.light .station-edit-btn:hover {
 </div>
 
 <script>
+// ─── DATOS ──────────────────────────────────────────────
 const S = {
   load: k => JSON.parse(localStorage.getItem(k) || '[]'),
   save: (k, v) => localStorage.setItem(k, JSON.stringify(v))
@@ -1078,10 +1072,10 @@ function goTab(id, el) {
 
 // ── TOAST ──
 let _t;
-function toast(msg, err = false) {
+function toast(msg, type = '') {
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.className = 'show' + (err ? ' err' : '');
+  el.className = 'show' + (type ? ' ' + type : '');
   clearTimeout(_t);
   _t = setTimeout(() => el.className = '', 2800);
 }
@@ -1117,8 +1111,8 @@ function renderStats() {
 function guardarPR() {
   const herramienta = document.getElementById('pr-h').value.trim();
   const persona     = document.getElementById('pr-p').value.trim();
-  if (!herramienta) { toast('Ingresá el nombre de la herramienta.', true); return; }
-  if (!persona)     { toast('Ingresá el nombre de la persona.', true); return; }
+  if (!herramienta) { toast('Ingresá el nombre de la herramienta.', 'err'); return; }
+  if (!persona)     { toast('Ingresá el nombre de la persona.', 'err'); return; }
 
   const reg = {
     id:         uid(),
@@ -1141,7 +1135,7 @@ function guardarPR() {
 
   ['pr-h','pr-cod','pr-p','pr-sec','pr-obs'].forEach(i => document.getElementById(i).value = '');
   renderStats(); renderPR(); updateCounts();
-  toast('Préstamo registrado.');
+  toast('Préstamo registrado.', 'success');
 }
 
 function renderPR() {
@@ -1188,7 +1182,7 @@ function renderPR() {
   </table>`;
 }
 
-// ── MODAL ──
+// ── MODAL DEVOLUCIÓN ──
 function abrirModal(id) {
   const pr = prestamos.find(p => p.id === id); if (!pr) return;
   document.getElementById('dev-id').value     = id;
@@ -1216,7 +1210,7 @@ function confirmarDev() {
   S.save('pr2', prestamos);
 
   cerrarModal(); renderStats(); renderPR(); updateCounts();
-  toast('Devolución registrada.');
+  toast('Devolución registrada.', 'success');
 }
 
 // ── HISTORIAL ──
@@ -1320,7 +1314,7 @@ function exportarDatos() {
   a.download = `prestamos-taller-${fecha}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  toast('Copia guardada.');
+  toast('Copia guardada.', 'success');
 }
 
 function importarDatos(e) {
@@ -1331,7 +1325,7 @@ function importarDatos(e) {
     try {
       const data = JSON.parse(ev.target.result);
       if (!Array.isArray(data.prestamos) || !Array.isArray(data.historial)) {
-        toast('Archivo inválido.', true); return;
+        toast('Archivo inválido.', 'err'); return;
       }
       if (!confirm(`¿Restaurar datos desde "${file.name}"?\nSe reemplazarán los datos actuales.`)) return;
       prestamos = data.prestamos;
@@ -1343,13 +1337,12 @@ function importarDatos(e) {
         renderEstacion();
       }
       renderStats(); renderPR(); updateCounts();
-      // refrescar historial si está visible
       if (document.getElementById('tab-historial').classList.contains('active')) renderHis();
-      toast('Datos restaurados correctamente.');
+      toast('Datos restaurados correctamente.', 'success');
     } catch {
-      toast('No se pudo leer el archivo.', true);
+      toast('No se pudo leer el archivo.', 'err');
     }
-    e.target.value = ''; // reset input para permitir re-importar el mismo archivo
+    e.target.value = '';
   };
   reader.readAsText(file);
 }
@@ -1378,7 +1371,7 @@ function guardarEstacion() {
   localStorage.setItem('estacion', val);
   document.getElementById('modal-station').classList.remove('open');
   renderEstacion();
-  toast('Nombre de estación guardado.');
+  toast('Nombre de estación guardado.', 'success');
 }
 
 // ── TEMA ──
@@ -1396,7 +1389,278 @@ function initTema() {
   }
 }
 
-// ── INIT ──
+// ──────────────────────────────────────────────────────
+// ─── INTEGRACIÓN GOOGLE SHEETS ──────────────────────
+// ──────────────────────────────────────────────────────
+
+// Guardar la URL en localStorage
+function getWebAppUrl() {
+  const url = document.getElementById('webAppUrl').value;
+  if (url) localStorage.setItem('webAppUrl', url);
+  return url || localStorage.getItem('webAppUrl') || '';
+}
+
+// Función para enviar datos a Google Sheets
+async function sendToGoogleSheets(action, data) {
+  const url = getWebAppUrl();
+  if (!url) {
+    toast('⚠️ Configura la URL de AppScript primero', 'err');
+    return null;
+  }
+
+  try {
+    const payload = {
+      action: action,
+      data: data,
+      timestamp: new Date().toISOString(),
+      estacion: localStorage.getItem('estacion') || 'Sin nombre'
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'text/plain;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    toast('❌ Error al enviar datos: ' + error.message, 'err');
+    return null;
+  }
+}
+
+// Probar conexión
+async function testConnection() {
+  const url = getWebAppUrl();
+  if (!url) {
+    toast('⚠️ Configura la URL de AppScript', 'err');
+    return;
+  }
+
+  const statusEl = document.getElementById('connectionStatus');
+  statusEl.textContent = '⏳ Probando...';
+  statusEl.style.color = 'var(--yellow)';
+
+  try {
+    const result = await sendToGoogleSheets('test', { message: 'Conexión de prueba' });
+    
+    if (result && result.success) {
+      statusEl.textContent = '✅ Conectado correctamente';
+      statusEl.style.color = 'var(--green)';
+      toast('✅ Conexión exitosa con Google Sheets', 'success');
+    } else {
+      statusEl.textContent = '❌ Error de conexión';
+      statusEl.style.color = 'var(--red)';
+      toast('❌ Error al conectar con Google Sheets', 'err');
+    }
+  } catch (error) {
+    statusEl.textContent = '❌ Error de conexión';
+    statusEl.style.color = 'var(--red)';
+    toast('❌ Error: ' + error.message, 'err');
+  }
+}
+
+// Sincronizar todos los datos
+async function syncAllToSheets() {
+  const prestamosData = getPrestamosData();
+  const devolucionesData = getDevolucionesData();
+  const historialData = getHistorialData();
+
+  const allData = {
+    prestamos: prestamosData,
+    devoluciones: devolucionesData,
+    historial: historialData,
+    total_prestamos: prestamosData.length,
+    total_devoluciones: devolucionesData.length,
+    total_historial: historialData.length
+  };
+
+  toast('⏳ Sincronizando todos los datos...');
+  
+  const result = await sendToGoogleSheets('sync_all', allData);
+  
+  if (result && result.success) {
+    toast('✅ Todos los datos sincronizados correctamente', 'success');
+    updateSyncStatus('Última sincronización: ' + new Date().toLocaleString());
+  }
+}
+
+// Sincronizar solo préstamos
+async function syncPrestamosToSheets() {
+  const prestamosData = getPrestamosData();
+  toast('⏳ Sincronizando préstamos...');
+  
+  const result = await sendToGoogleSheets('sync_prestamos', {
+    prestamos: prestamosData,
+    total: prestamosData.length
+  });
+  
+  if (result && result.success) {
+    toast('✅ ' + prestamosData.length + ' préstamos sincronizados', 'success');
+  }
+}
+
+// Sincronizar solo devoluciones
+async function syncDevolucionesToSheets() {
+  const devolucionesData = getDevolucionesData();
+  toast('⏳ Sincronizando devoluciones...');
+  
+  const result = await sendToGoogleSheets('sync_devoluciones', {
+    devoluciones: devolucionesData,
+    total: devolucionesData.length
+  });
+  
+  if (result && result.success) {
+    toast('✅ ' + devolucionesData.length + ' devoluciones sincronizadas', 'success');
+  }
+}
+
+// Sincronizar historial completo
+async function syncHistorial() {
+  const historialData = getHistorialData();
+  toast('⏳ Sincronizando historial...');
+  
+  const result = await sendToGoogleSheets('sync_historial', {
+    historial: historialData,
+    total: historialData.length
+  });
+  
+  if (result && result.success) {
+    toast('✅ ' + historialData.length + ' registros sincronizados', 'success');
+  }
+}
+
+// Sincronizar un préstamo individual (el último registrado)
+async function syncSinglePrestamo() {
+  const prestamosData = getPrestamosData();
+  if (prestamosData.length === 0) {
+    toast('⚠️ No hay préstamos para sincronizar', 'err');
+    return;
+  }
+  
+  const ultimo = prestamosData[prestamosData.length - 1];
+  toast('⏳ Sincronizando préstamo: ' + ultimo.herramienta);
+  
+  const result = await sendToGoogleSheets('sync_single_prestamo', {
+    prestamo: ultimo
+  });
+  
+  if (result && result.success) {
+    toast('✅ Préstamo sincronizado: ' + ultimo.herramienta, 'success');
+  }
+}
+
+// Sincronizar todos los préstamos (desde el botón en la tabla)
+async function syncAllPrestamos() {
+  await syncPrestamosToSheets();
+}
+
+// Funciones auxiliares para obtener datos
+function getPrestamosData() {
+  const data = [];
+  document.querySelectorAll('#tbl-pr table tbody tr').forEach(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length >= 5) {
+      const herramienta = cells[0]?.querySelector('strong')?.textContent?.trim() || '';
+      const codigo = cells[0]?.querySelector('div')?.textContent?.trim() || '';
+      const persona = cells[1]?.querySelector('span')?.textContent?.trim() || '';
+      const sector = cells[1]?.querySelector('div')?.textContent?.trim()?.replace('📍 ', '') || '';
+      const fecha = cells[2]?.textContent?.trim() || '';
+      const obs = cells[3]?.querySelector('span')?.textContent?.trim() || '';
+      
+      // Buscar el ID en el botón de devolución
+      const devBtn = cells[4]?.querySelector('button');
+      const id = devBtn ? devBtn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '' : '';
+      
+      data.push({ id, herramienta, codigo, persona, sector, fecha, obs });
+    }
+  });
+  
+  // Si no hay datos en la tabla, usar los datos de la variable
+  if (data.length === 0 && prestamos.length > 0) {
+    return prestamos.map(p => ({
+      id: p.id || '',
+      herramienta: p.herramienta || '',
+      codigo: p.codigo || '',
+      persona: p.persona || '',
+      sector: p.sector || '',
+      fecha: p.fecha || '',
+      obs: p.obs || ''
+    }));
+  }
+  
+  return data;
+}
+
+function getDevolucionesData() {
+  const data = [];
+  const devueltos = historial.filter(r => r.fechaDev !== null);
+  
+  devueltos.forEach(r => {
+    data.push({
+      id: r.id || '',
+      herramienta: r.herramienta || '',
+      codigo: r.codigo || '',
+      persona: r.persona || '',
+      sector: r.sector || '',
+      fecha_prestamo: r.fecha || '',
+      fecha_devolucion: r.fechaDev || '',
+      dias: r.dias || '',
+      estado: r.estadoDev || '',
+      obs_dev: r.obsDev || ''
+    });
+  });
+  
+  return data;
+}
+
+function getHistorialData() {
+  return historial.map(r => ({
+    id: r.id || '',
+    herramienta: r.herramienta || '',
+    codigo: r.codigo || '',
+    persona: r.persona || '',
+    sector: r.sector || '',
+    fecha: r.fecha || '',
+    fechaDev: r.fechaDev || '',
+    dias: r.dias || '',
+    estadoDev: r.estadoDev || '',
+    obs: r.obs || '',
+    obsDev: r.obsDev || ''
+  }));
+}
+
+// Actualizar estado de sincronización
+function updateSyncStatus(message) {
+  const statusEl = document.getElementById('connectionStatus');
+  if (statusEl) {
+    statusEl.textContent = '🟢 ' + message;
+    statusEl.style.color = 'var(--green)';
+  }
+}
+
+// Inicializar con la URL guardada
+document.addEventListener('DOMContentLoaded', function() {
+  const savedUrl = localStorage.getItem('webAppUrl');
+  if (savedUrl) {
+    document.getElementById('webAppUrl').value = savedUrl;
+  }
+});
+
+// ──────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────────────────
+// ──────────────────────────────────────────────────────
+
 initTema();
 renderEstacion();
 renderStats(); renderPR(); updateCounts();
