@@ -29,7 +29,6 @@
   --r2:        14px;
 }
 
-/* ── TEMA CLARO ── */
 html.light {
   --bg:        #f1f3f8;
   --surface:   #ffffff;
@@ -62,7 +61,6 @@ body {
   position: relative;
 }
 
-/* ── FONDO ABSTRACTO ── */
 body::before {
   content: '';
   position: fixed;
@@ -99,7 +97,6 @@ html.light body::before {
 
 header, .station-bar, .container, .overlay { position: relative; z-index: 1; }
 
-/* ─── HEADER ─── */
 header {
   background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
   border-bottom: 1px solid var(--border);
@@ -129,7 +126,6 @@ header {
 .header-title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
 .header-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; letter-spacing: .02em; text-transform: uppercase; }
 
-/* ─── TABS ─── */
 .tabs {
   display: flex;
   background: var(--bg);
@@ -172,14 +168,12 @@ header {
 }
 .tab .count.show { display: inline-block; }
 
-/* ─── LAYOUT ─── */
 .container { max-width: 1040px; margin: 0 auto; padding: 32px 24px; }
 
 .page { display: none; }
 .page.active { display: block; animation: fadeIn .2s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } }
 
-/* ─── STATS ─── */
 .stats {
   display: flex;
   justify-content: center;
@@ -235,7 +229,6 @@ header {
 
 .stat-l { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 
-/* ─── CARD ─── */
 .card {
   background: linear-gradient(160deg, var(--surface2) 0%, var(--surface) 100%);
   border: 1px solid var(--border);
@@ -269,6 +262,7 @@ header {
   display: flex; align-items: center; gap: 8px;
   text-shadow: 0 1px 3px rgba(0,0,0,.3);
 }
+
 .icon-3d {
   display: flex; align-items: center; justify-content: center;
   font-size: 28px;
@@ -280,10 +274,7 @@ header {
   transform: translateY(-2px) scale(1.08);
   filter: drop-shadow(0 4px 2px rgba(0,0,0,.45)) drop-shadow(0 6px 14px rgba(0,0,0,.35));
 }
-.icon-3d-sm {
-  font-size: 18px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,.35));
-}
+
 .stat-icon {
   font-size: 36px;
   margin-bottom: 8px;
@@ -303,7 +294,6 @@ header {
 
 .card-body { padding: 22px; }
 
-/* ─── FORM ─── */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -342,7 +332,6 @@ input:focus, select:focus {
 }
 select option { background: var(--surface2); }
 
-/* ─── BUTTONS ─── */
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 9px 18px;
@@ -403,9 +392,7 @@ select option { background: var(--surface2); }
 }
 .btn-sync:hover { filter: brightness(1.15); }
 
-/* ─── TABLE ─── */
 .table-wrap { overflow-x: auto; }
-
 table { width: 100%; border-collapse: collapse; }
 
 th {
@@ -432,7 +419,6 @@ tbody tr { transition: background .1s; }
 tbody tr:last-child td { border-bottom: none; }
 tbody tr:hover td { background: rgba(0,0,0,.02); }
 
-/* ─── BADGES ─── */
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 4px 10px; border-radius: 20px;
@@ -454,7 +440,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 .gr { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
 .gr .badge-dot { background: var(--muted); }
 
-/* ─── SEARCH ─── */
 .search-wrap { position: relative; }
 .search-wrap .ico {
   position: absolute; left: 11px; top: 50%;
@@ -463,19 +448,16 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 }
 .search-wrap input { padding-left: 32px; max-width: 240px; }
 
-/* ─── TOOLBAR ─── */
 .toolbar {
   display: flex; align-items: center;
   justify-content: space-between;
   gap: 10px; flex-wrap: wrap;
 }
 
-/* ─── EMPTY ─── */
 .empty { padding: 48px; text-align: center; }
 .empty-ico { font-size: 32px; margin-bottom: 10px; filter: grayscale(1) opacity(.4); }
 .empty p { color: var(--muted); font-size: 13px; }
 
-/* ─── TOAST ─── */
 #toast {
   position: fixed; bottom: 28px; right: 28px;
   background: var(--surface2);
@@ -496,8 +478,9 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 #toast.err::before { content: '✕'; color: var(--red); }
 #toast.success { border-color: rgba(34,197,94,.4); }
 #toast.success::before { content: '✓'; color: var(--green); }
+#toast.sync { border-color: rgba(59,130,246,.4); }
+#toast.sync::before { content: '↻'; color: var(--accent); }
 
-/* ─── MODAL ─── */
 .overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,.6);
@@ -534,13 +517,8 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 .modal-title { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
 
 .modal-grid { display: flex; flex-direction: column; gap: 14px; }
+.modal-divider { height: 1px; background: var(--border); margin: 6px 0; }
 
-.modal-divider {
-  height: 1px; background: var(--border);
-  margin: 6px 0;
-}
-
-/* ─── PILL FILTER ─── */
 .pill-select {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -555,7 +533,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
 }
 .pill-select:focus { border-color: var(--accent); }
 
-/* ─── THEME TOGGLE ─── */
 .theme-btn {
   width: 38px; height: 38px;
   border-radius: 10px;
@@ -574,12 +551,10 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
   background: var(--bg);
 }
 
-/* ─── HEADER RIGHT ─── */
 .header-right {
   display: flex; align-items: center; gap: 10px;
 }
 
-/* ─── BACKUP BUTTONS ─── */
 .backup-btns {
   display: flex; gap: 6px;
 }
@@ -603,7 +578,6 @@ tbody tr:hover td { background: rgba(0,0,0,.02); }
   background: var(--bg);
 }
 
-/* ─── STATION BANNER ─── */
 .station-bar {
   position: relative;
   overflow: hidden;
@@ -702,51 +676,24 @@ html.light .station-label {
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
-  background: linear-gradient(180deg,
-    #ffffff  0%,
-    #c8d8ff 20%,
-    #4f7cff 55%,
-    #1a3a9e 100%
-  );
+  background: linear-gradient(180deg, #ffffff 0%, #c8d8ff 20%, #4f7cff 55%, #1a3a9e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter:
-    drop-shadow(0 2px 0 rgba(10,40,160,.95))
-    drop-shadow(0 4px 0 rgba(8,28,120,.85))
-    drop-shadow(0 6px 0 rgba(5,18,80,.7))
-    drop-shadow(0 8px 0 rgba(3,10,50,.5))
-    drop-shadow(0 12px 0 rgba(2,6,30,.3))
-    drop-shadow(0 16px 32px rgba(79,124,255,.6))
-    drop-shadow(0 28px 56px rgba(79,124,255,.25));
+  filter: drop-shadow(0 2px 0 rgba(10,40,160,.95)) drop-shadow(0 4px 0 rgba(8,28,120,.85)) drop-shadow(0 6px 0 rgba(5,18,80,.7)) drop-shadow(0 8px 0 rgba(3,10,50,.5)) drop-shadow(0 12px 0 rgba(2,6,30,.3)) drop-shadow(0 16px 32px rgba(79,124,255,.6)) drop-shadow(0 28px 56px rgba(79,124,255,.25));
   transition: filter .3s, transform .2s;
 }
 .station-name:not(.placeholder):hover {
   transform: scale(1.02);
-  filter:
-    drop-shadow(0 2px 0 rgba(10,40,160,.95))
-    drop-shadow(0 4px 0 rgba(8,28,120,.85))
-    drop-shadow(0 6px 0 rgba(5,18,80,.7))
-    drop-shadow(0 8px 0 rgba(3,10,50,.5))
-    drop-shadow(0 20px 40px rgba(79,124,255,.8))
-    drop-shadow(0 32px 64px rgba(79,124,255,.35));
+  filter: drop-shadow(0 2px 0 rgba(10,40,160,.95)) drop-shadow(0 4px 0 rgba(8,28,120,.85)) drop-shadow(0 6px 0 rgba(5,18,80,.7)) drop-shadow(0 8px 0 rgba(3,10,50,.5)) drop-shadow(0 20px 40px rgba(79,124,255,.8)) drop-shadow(0 32px 64px rgba(79,124,255,.35));
 }
 
 html.light .station-name {
-  background: linear-gradient(180deg,
-    #1e3a8a  0%,
-    #1d4ed8 35%,
-    #2563eb 65%,
-    #0f2a7a 100%
-  );
+  background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 35%, #2563eb 65%, #0f2a7a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter:
-    drop-shadow(0 2px 0 rgba(255,255,255,.95))
-    drop-shadow(0 4px 0 rgba(210,225,255,.8))
-    drop-shadow(0 6px 0 rgba(170,195,255,.55))
-    drop-shadow(0 10px 24px rgba(37,99,235,.25));
+  filter: drop-shadow(0 2px 0 rgba(255,255,255,.95)) drop-shadow(0 4px 0 rgba(210,225,255,.8)) drop-shadow(0 6px 0 rgba(170,195,255,.55)) drop-shadow(0 10px 24px rgba(37,99,235,.25));
 }
 
 .station-name.placeholder {
@@ -812,7 +759,6 @@ html.light .station-edit-btn:hover {
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
 <header>
   <div class="header-left">
     <div class="logo icon-3d" style="font-size:20px">⚙️</div>
@@ -831,21 +777,16 @@ html.light .station-edit-btn:hover {
       </button>
     </div>
     <div class="backup-btns">
-      <button class="backup-btn" onclick="exportarDatos()" title="Guardar copia de seguridad">
-        💾 Guardar
-      </button>
+      <button class="backup-btn" onclick="exportarDatos()" title="Guardar copia de seguridad">💾 Guardar</button>
       <label class="backup-btn" title="Restaurar desde archivo">
         📂 Restaurar
         <input type="file" id="file-import" accept=".json" onchange="importarDatos(event)" style="display:none" />
       </label>
-      <button class="backup-btn theme-toggle-btn" id="theme-btn" onclick="toggleTema()" title="Cambiar tema">
-        🌙
-      </button>
+      <button class="backup-btn theme-toggle-btn" id="theme-btn" onclick="toggleTema()" title="Cambiar tema">🌙</button>
     </div>
   </div>
 </header>
 
-<!-- ─── BANNER ESTACIÓN ─── -->
 <div class="station-bar" id="station-bar">
   <div class="station-label">⚙ Estación CNC</div>
   <div class="station-bar-inner">
@@ -856,18 +797,19 @@ html.light .station-edit-btn:hover {
 
 <div class="container">
 
-  <!-- ══════ TAB PRÉSTAMOS ══════ -->
   <div id="tab-prestamos" class="page active">
-
     <div class="stats" id="stats"></div>
 
-    <!-- Formulario -->
     <div class="card" style="margin-bottom:20px">
       <div class="card-header">
         <div class="card-title">
           <div class="card-title-icon">🔧</div>
           Registrar préstamo
         </div>
+        <span id="sync-status" style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;">
+          <span id="sync-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);"></span>
+          <span id="sync-text">Sincronización automática</span>
+        </span>
       </div>
       <div class="card-body">
         <div class="form-grid">
@@ -892,37 +834,27 @@ html.light .station-edit-btn:hover {
             <input id="pr-obs" placeholder="Estado al salir, accesorios incluidos…" />
           </div>
         </div>
-        <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
+        <div style="margin-top:18px;">
           <button class="btn btn-primary" onclick="guardarPR()">Registrar préstamo</button>
-          <button class="btn btn-sync" onclick="syncSinglePrestamo()" title="Enviar este préstamo a Google Sheets">
-            📤 Sincronizar
-          </button>
         </div>
       </div>
     </div>
 
-    <!-- Tabla activos -->
     <div class="card">
       <div class="card-header">
         <div class="card-title">
           <div class="card-title-icon">🏭</div>
           Préstamos activos
         </div>
-        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <div class="search-wrap">
-            <span class="ico">🔍</span>
-            <input id="q-pr" placeholder="Buscar…" oninput="renderPR()" />
-          </div>
-          <button class="btn btn-sync btn-sm" onclick="syncAllPrestamos()">
-            📤 Sincronizar todos
-          </button>
+        <div class="search-wrap">
+          <span class="ico">🔍</span>
+          <input id="q-pr" placeholder="Buscar…" oninput="renderPR()" />
         </div>
       </div>
       <div class="table-wrap" id="tbl-pr"></div>
     </div>
   </div>
 
-  <!-- ══════ TAB HISTORIAL ══════ -->
   <div id="tab-historial" class="page">
     <div class="card">
       <div class="card-header">
@@ -941,58 +873,15 @@ html.light .station-edit-btn:hover {
             <option value="devuelto">Devueltos</option>
           </select>
           <button class="btn btn-ghost btn-sm" onclick="limpiarHis()">Limpiar</button>
-          <button class="btn btn-sync btn-sm" onclick="syncHistorial()">
-            📤 Sincronizar
-          </button>
         </div>
       </div>
       <div class="table-wrap" id="tbl-hi"></div>
     </div>
   </div>
 
-  <!-- ══════ CONFIGURACIÓN GOOGLE SHEETS ══════ -->
-  <div class="card" style="margin-top:30px;">
-    <div class="card-header">
-      <div class="card-title">
-        <div class="card-title-icon">📊</div>
-        Google Sheets
-      </div>
-      <button class="btn btn-sm btn-ghost" onclick="testConnection()">
-        🔌 Probar conexión
-      </button>
-    </div>
-    <div class="card-body">
-      <div class="form-grid">
-        <div class="field">
-          <label>URL de AppScript</label>
-          <input type="url" id="webAppUrl" 
-                 placeholder="https://script.google.com/macros/s/AKfycbyD5ALmdTWV8fSDhM_VVIIk9hJenuHXaWrh_mKHwZUkqfkQ_af7f4VEiZdLwIvBfK4Peg/exec"
-                 value="" />
-        </div>
-        <div class="field">
-          <label>Estado de conexión</label>
-          <span id="connectionStatus" style="padding: 8px 12px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); color: var(--text2);">
-            ⚪ No conectado
-          </span>
-        </div>
-      </div>
-      <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn btn-sync" onclick="syncAllToSheets()">
-          📤 Sincronizar todos los datos
-        </button>
-        <button class="btn btn-success" onclick="syncPrestamosToSheets()">
-          📤 Sincronizar préstamos
-        </button>
-        <button class="btn btn-success" onclick="syncDevolucionesToSheets()">
-          📤 Sincronizar devoluciones
-        </button>
-      </div>
-    </div>
-  </div>
-
 </div>
 
-<!-- ─── MODAL DEVOLUCIÓN ─── -->
+<!-- MODAL DEVOLUCIÓN -->
 <div class="overlay" id="modal">
   <div class="modal">
     <div class="modal-header">
@@ -1027,7 +916,7 @@ html.light .station-edit-btn:hover {
 
 <div id="toast"></div>
 
-<!-- ─── MODAL NOMBRE ESTACIÓN ─── -->
+<!-- MODAL NOMBRE ESTACIÓN -->
 <div class="overlay" id="modal-station">
   <div class="modal">
     <div class="modal-header">
@@ -1059,6 +948,13 @@ let historial = S.load('hi4');
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
 const hoy = () => new Date().toISOString().slice(0,10);
+
+// ─── CONFIGURACIÓN GOOGLE SHEETS ────────────────────────
+// CAMBIA ESTA URL POR LA DE TU APPSCRIPT
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyD5ALmdTWV8fSDhM_VVIIk9hJenuHXaWrh_mKHwZUkqfkQ_af7f4VEiZdLwIvBfK4Peg/exec';
+
+let syncQueue = [];
+let isSyncing = false;
 
 // ── TABS ──
 function goTab(id, el) {
@@ -1107,7 +1003,134 @@ function renderStats() {
   `;
 }
 
-// ── PRÉSTAMOS ──
+// ── SINCRO ──
+function updateSyncStatus(estado, mensaje) {
+  const dot = document.getElementById('sync-dot');
+  const text = document.getElementById('sync-text');
+  if (estado === 'idle') {
+    dot.style.background = 'var(--muted)';
+    text.textContent = 'Sincronización automática';
+  } else if (estado === 'syncing') {
+    dot.style.background = 'var(--yellow)';
+    dot.style.animation = 'pulse 1s infinite';
+    text.textContent = mensaje || 'Sincronizando...';
+  } else if (estado === 'success') {
+    dot.style.background = 'var(--green)';
+    dot.style.animation = 'none';
+    text.textContent = mensaje || 'Sincronizado ✓';
+    setTimeout(() => updateSyncStatus('idle'), 3000);
+  } else if (estado === 'error') {
+    dot.style.background = 'var(--red)';
+    dot.style.animation = 'none';
+    text.textContent = mensaje || 'Error de sincronización';
+    setTimeout(() => updateSyncStatus('idle'), 4000);
+  }
+}
+
+// Añadir estilo para la animación
+const stylePulse = document.createElement('style');
+stylePulse.textContent = `
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+`;
+document.head.appendChild(stylePulse);
+
+// ─── ENVÍO A GOOGLE SHEETS ─────────────────────────────
+async function sendToGoogleSheets(action, data) {
+  try {
+    const payload = {
+      action: action,
+      data: data,
+      timestamp: new Date().toISOString(),
+      estacion: localStorage.getItem('estacion') || 'Sin nombre'
+    };
+
+    const response = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'text/plain;charset=utf-8',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error en sincronización:', error);
+    return null;
+  }
+}
+
+// ─── SINCRONIZAR DATOS ──────────────────────────────────
+async function syncDataToSheets() {
+  if (isSyncing) return;
+  
+  const dataToSync = {
+    prestamos: prestamos.map(p => ({
+      id: p.id || '',
+      herramienta: p.herramienta || '',
+      codigo: p.codigo || '',
+      persona: p.persona || '',
+      sector: p.sector || '',
+      fecha: p.fecha || '',
+      obs: p.obs || ''
+    })),
+    devoluciones: historial.filter(r => r.fechaDev).map(r => ({
+      id: r.id || '',
+      herramienta: r.herramienta || '',
+      codigo: r.codigo || '',
+      persona: r.persona || '',
+      sector: r.sector || '',
+      fecha_prestamo: r.fecha || '',
+      fecha_devolucion: r.fechaDev || '',
+      dias: r.dias || '',
+      estado: r.estadoDev || '',
+      obs_dev: r.obsDev || ''
+    })),
+    historial: historial.map(r => ({
+      id: r.id || '',
+      herramienta: r.herramienta || '',
+      codigo: r.codigo || '',
+      persona: r.persona || '',
+      sector: r.sector || '',
+      fecha: r.fecha || '',
+      fechaDev: r.fechaDev || '',
+      dias: r.dias || '',
+      estadoDev: r.estadoDev || '',
+      obs: r.obs || '',
+      obsDev: r.obsDev || ''
+    }))
+  };
+
+  isSyncing = true;
+  updateSyncStatus('syncing', 'Sincronizando datos...');
+
+  try {
+    const result = await sendToGoogleSheets('sync_all', dataToSync);
+    
+    if (result && result.success) {
+      updateSyncStatus('success', `Sincronizado: ${prestamos.length} préstamos, ${historial.filter(r=>r.fechaDev).length} devoluciones`);
+      toast('✅ Datos sincronizados con Google Sheets', 'success');
+    } else {
+      updateSyncStatus('error', 'Error al sincronizar');
+      toast('❌ Error al sincronizar con Google Sheets', 'err');
+    }
+  } catch (error) {
+    updateSyncStatus('error', 'Error de conexión');
+    toast('❌ Error de conexión con Google Sheets', 'err');
+  } finally {
+    isSyncing = false;
+  }
+}
+
+// ─── GUARDAR PRÉSTAMO CON SINCRONIZACIÓN ──────────────
 function guardarPR() {
   const herramienta = document.getElementById('pr-h').value.trim();
   const persona     = document.getElementById('pr-p').value.trim();
@@ -1136,8 +1159,35 @@ function guardarPR() {
   ['pr-h','pr-cod','pr-p','pr-sec','pr-obs'].forEach(i => document.getElementById(i).value = '');
   renderStats(); renderPR(); updateCounts();
   toast('Préstamo registrado.', 'success');
+
+  // Sincronizar automáticamente
+  syncDataToSheets();
 }
 
+// ─── CONFIRMAR DEVOLUCIÓN CON SINCRONIZACIÓN ──────────
+function confirmarDev() {
+  const id     = document.getElementById('dev-id').value;
+  const estado = document.getElementById('dev-estado').value;
+  const obs    = document.getElementById('dev-obs').value.trim();
+  const fecha  = hoy();
+  const pr = prestamos.find(p => p.id === id); if (!pr) return;
+  const dias = Math.round((new Date(fecha) - new Date(pr.fecha)) / 86400000);
+
+  const reg = historial.find(r => r.id === id);
+  if (reg) { reg.fechaDev = fecha; reg.dias = dias; reg.estadoDev = estado; reg.obsDev = obs; }
+  S.save('hi4', historial);
+
+  prestamos = prestamos.filter(p => p.id !== id);
+  S.save('pr2', prestamos);
+
+  cerrarModal(); renderStats(); renderPR(); updateCounts();
+  toast('Devolución registrada.', 'success');
+
+  // Sincronizar automáticamente
+  syncDataToSheets();
+}
+
+// ─── RENDER PRÉSTAMOS ──────────────────────────────────
 function renderPR() {
   const q  = document.getElementById('q-pr').value.toLowerCase();
   const el = document.getElementById('tbl-pr');
@@ -1182,7 +1232,7 @@ function renderPR() {
   </table>`;
 }
 
-// ── MODAL DEVOLUCIÓN ──
+// ─── MODAL DEVOLUCIÓN ──────────────────────────────────
 function abrirModal(id) {
   const pr = prestamos.find(p => p.id === id); if (!pr) return;
   document.getElementById('dev-id').value     = id;
@@ -1194,26 +1244,7 @@ function abrirModal(id) {
 }
 function cerrarModal() { document.getElementById('modal').classList.remove('open'); }
 
-function confirmarDev() {
-  const id     = document.getElementById('dev-id').value;
-  const estado = document.getElementById('dev-estado').value;
-  const obs    = document.getElementById('dev-obs').value.trim();
-  const fecha  = hoy();
-  const pr = prestamos.find(p => p.id === id); if (!pr) return;
-  const dias = Math.round((new Date(fecha) - new Date(pr.fecha)) / 86400000);
-
-  const reg = historial.find(r => r.id === id);
-  if (reg) { reg.fechaDev = fecha; reg.dias = dias; reg.estadoDev = estado; reg.obsDev = obs; }
-  S.save('hi4', historial);
-
-  prestamos = prestamos.filter(p => p.id !== id);
-  S.save('pr2', prestamos);
-
-  cerrarModal(); renderStats(); renderPR(); updateCounts();
-  toast('Devolución registrada.', 'success');
-}
-
-// ── HISTORIAL ──
+// ─── HISTORIAL ──────────────────────────────────────────
 function renderHis() {
   const q   = document.getElementById('q-hi').value.toLowerCase();
   const fil = document.getElementById('fil-hi').value;
@@ -1250,16 +1281,12 @@ function renderHis() {
     </td>
     <td style="font-variant-numeric:tabular-nums">${r.fecha}</td>
     <td style="font-variant-numeric:tabular-nums">
-      ${r.fechaDev
-        ? r.fechaDev
-        : '<span class="badge gr"><span class="badge-dot"></span>Pendiente</span>'}
+      ${r.fechaDev ? r.fechaDev : '<span class="badge gr"><span class="badge-dot"></span>Pendiente</span>'}
     </td>
-    <td style="color:var(--muted)">
-      ${r.dias != null ? `${r.dias}d` : '—'}
-    </td>
+    <td style="color:var(--muted)">${r.dias != null ? `${r.dias}d` : '—'}</td>
     <td>${estadoBadge(r.estadoDev)}</td>
     <td>
-      ${r.obs    ? `<div style="font-size:11.5px;margin-bottom:2px">📤 ${r.obs}</div>` : ''}
+      ${r.obs ? `<div style="font-size:11.5px;margin-bottom:2px">📤 ${r.obs}</div>` : ''}
       ${r.obsDev ? `<div style="font-size:11.5px">📥 ${r.obsDev}</div>` : ''}
       ${!r.obs && !r.obsDev ? '<span style="color:var(--muted)">—</span>' : ''}
     </td>
@@ -1288,6 +1315,9 @@ function eliminarHis(id) {
   S.save('hi4', historial);
   renderHis(); updateCounts();
   toast('Registro eliminado.');
+  
+  // Sincronizar automáticamente
+  syncDataToSheets();
 }
 
 function limpiarHis() {
@@ -1295,9 +1325,12 @@ function limpiarHis() {
   if (!confirm('¿Limpiar todo el historial?')) return;
   historial = []; S.save('hi4', historial);
   renderHis(); updateCounts(); toast('Historial limpiado.');
+  
+  // Sincronizar automáticamente
+  syncDataToSheets();
 }
 
-// ── BACKUP / RESTORE ──
+// ─── BACKUP / RESTORE ──────────────────────────────────
 function exportarDatos() {
   const data = {
     version:   2,
@@ -1339,6 +1372,9 @@ function importarDatos(e) {
       renderStats(); renderPR(); updateCounts();
       if (document.getElementById('tab-historial').classList.contains('active')) renderHis();
       toast('Datos restaurados correctamente.', 'success');
+      
+      // Sincronizar automáticamente después de restaurar
+      syncDataToSheets();
     } catch {
       toast('No se pudo leer el archivo.', 'err');
     }
@@ -1347,7 +1383,7 @@ function importarDatos(e) {
   reader.readAsText(file);
 }
 
-// ── ESTACIÓN ──
+// ─── ESTACIÓN ──────────────────────────────────────────
 function renderEstacion() {
   const nombre  = localStorage.getItem('estacion') || '';
   const display = document.getElementById('station-display');
@@ -1374,7 +1410,7 @@ function guardarEstacion() {
   toast('Nombre de estación guardado.', 'success');
 }
 
-// ── TEMA ──
+// ─── TEMA ──────────────────────────────────────────────
 function toggleTema() {
   const isLight = document.documentElement.classList.toggle('light');
   localStorage.setItem('tema', isLight ? 'light' : 'dark');
@@ -1389,281 +1425,24 @@ function initTema() {
   }
 }
 
-// ──────────────────────────────────────────────────────
-// ─── INTEGRACIÓN GOOGLE SHEETS ──────────────────────
-// ──────────────────────────────────────────────────────
-
-// Guardar la URL en localStorage
-function getWebAppUrl() {
-  const url = document.getElementById('webAppUrl').value;
-  if (url) localStorage.setItem('webAppUrl', url);
-  return url || localStorage.getItem('webAppUrl') || '';
-}
-
-// Función para enviar datos a Google Sheets
-async function sendToGoogleSheets(action, data) {
-  const url = getWebAppUrl();
-  if (!url) {
-    toast('⚠️ Configura la URL de AppScript primero', 'err');
-    return null;
-  }
-
-  try {
-    const payload = {
-      action: action,
-      data: data,
-      timestamp: new Date().toISOString(),
-      estacion: localStorage.getItem('estacion') || 'Sin nombre'
-    };
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'text/plain;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP ${response.status}: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error('Error:', error);
-    toast('❌ Error al enviar datos: ' + error.message, 'err');
-    return null;
-  }
-}
-
-// Probar conexión
-async function testConnection() {
-  const url = getWebAppUrl();
-  if (!url) {
-    toast('⚠️ Configura la URL de AppScript', 'err');
-    return;
-  }
-
-  const statusEl = document.getElementById('connectionStatus');
-  statusEl.textContent = '⏳ Probando...';
-  statusEl.style.color = 'var(--yellow)';
-
-  try {
-    const result = await sendToGoogleSheets('test', { message: 'Conexión de prueba' });
-    
-    if (result && result.success) {
-      statusEl.textContent = '✅ Conectado correctamente';
-      statusEl.style.color = 'var(--green)';
-      toast('✅ Conexión exitosa con Google Sheets', 'success');
-    } else {
-      statusEl.textContent = '❌ Error de conexión';
-      statusEl.style.color = 'var(--red)';
-      toast('❌ Error al conectar con Google Sheets', 'err');
-    }
-  } catch (error) {
-    statusEl.textContent = '❌ Error de conexión';
-    statusEl.style.color = 'var(--red)';
-    toast('❌ Error: ' + error.message, 'err');
-  }
-}
-
-// Sincronizar todos los datos
-async function syncAllToSheets() {
-  const prestamosData = getPrestamosData();
-  const devolucionesData = getDevolucionesData();
-  const historialData = getHistorialData();
-
-  const allData = {
-    prestamos: prestamosData,
-    devoluciones: devolucionesData,
-    historial: historialData,
-    total_prestamos: prestamosData.length,
-    total_devoluciones: devolucionesData.length,
-    total_historial: historialData.length
-  };
-
-  toast('⏳ Sincronizando todos los datos...');
-  
-  const result = await sendToGoogleSheets('sync_all', allData);
-  
-  if (result && result.success) {
-    toast('✅ Todos los datos sincronizados correctamente', 'success');
-    updateSyncStatus('Última sincronización: ' + new Date().toLocaleString());
-  }
-}
-
-// Sincronizar solo préstamos
-async function syncPrestamosToSheets() {
-  const prestamosData = getPrestamosData();
-  toast('⏳ Sincronizando préstamos...');
-  
-  const result = await sendToGoogleSheets('sync_prestamos', {
-    prestamos: prestamosData,
-    total: prestamosData.length
-  });
-  
-  if (result && result.success) {
-    toast('✅ ' + prestamosData.length + ' préstamos sincronizados', 'success');
-  }
-}
-
-// Sincronizar solo devoluciones
-async function syncDevolucionesToSheets() {
-  const devolucionesData = getDevolucionesData();
-  toast('⏳ Sincronizando devoluciones...');
-  
-  const result = await sendToGoogleSheets('sync_devoluciones', {
-    devoluciones: devolucionesData,
-    total: devolucionesData.length
-  });
-  
-  if (result && result.success) {
-    toast('✅ ' + devolucionesData.length + ' devoluciones sincronizadas', 'success');
-  }
-}
-
-// Sincronizar historial completo
-async function syncHistorial() {
-  const historialData = getHistorialData();
-  toast('⏳ Sincronizando historial...');
-  
-  const result = await sendToGoogleSheets('sync_historial', {
-    historial: historialData,
-    total: historialData.length
-  });
-  
-  if (result && result.success) {
-    toast('✅ ' + historialData.length + ' registros sincronizados', 'success');
-  }
-}
-
-// Sincronizar un préstamo individual (el último registrado)
-async function syncSinglePrestamo() {
-  const prestamosData = getPrestamosData();
-  if (prestamosData.length === 0) {
-    toast('⚠️ No hay préstamos para sincronizar', 'err');
-    return;
-  }
-  
-  const ultimo = prestamosData[prestamosData.length - 1];
-  toast('⏳ Sincronizando préstamo: ' + ultimo.herramienta);
-  
-  const result = await sendToGoogleSheets('sync_single_prestamo', {
-    prestamo: ultimo
-  });
-  
-  if (result && result.success) {
-    toast('✅ Préstamo sincronizado: ' + ultimo.herramienta, 'success');
-  }
-}
-
-// Sincronizar todos los préstamos (desde el botón en la tabla)
-async function syncAllPrestamos() {
-  await syncPrestamosToSheets();
-}
-
-// Funciones auxiliares para obtener datos
-function getPrestamosData() {
-  const data = [];
-  document.querySelectorAll('#tbl-pr table tbody tr').forEach(row => {
-    const cells = row.querySelectorAll('td');
-    if (cells.length >= 5) {
-      const herramienta = cells[0]?.querySelector('strong')?.textContent?.trim() || '';
-      const codigo = cells[0]?.querySelector('div')?.textContent?.trim() || '';
-      const persona = cells[1]?.querySelector('span')?.textContent?.trim() || '';
-      const sector = cells[1]?.querySelector('div')?.textContent?.trim()?.replace('📍 ', '') || '';
-      const fecha = cells[2]?.textContent?.trim() || '';
-      const obs = cells[3]?.querySelector('span')?.textContent?.trim() || '';
-      
-      // Buscar el ID en el botón de devolución
-      const devBtn = cells[4]?.querySelector('button');
-      const id = devBtn ? devBtn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '' : '';
-      
-      data.push({ id, herramienta, codigo, persona, sector, fecha, obs });
-    }
-  });
-  
-  // Si no hay datos en la tabla, usar los datos de la variable
-  if (data.length === 0 && prestamos.length > 0) {
-    return prestamos.map(p => ({
-      id: p.id || '',
-      herramienta: p.herramienta || '',
-      codigo: p.codigo || '',
-      persona: p.persona || '',
-      sector: p.sector || '',
-      fecha: p.fecha || '',
-      obs: p.obs || ''
-    }));
-  }
-  
-  return data;
-}
-
-function getDevolucionesData() {
-  const data = [];
-  const devueltos = historial.filter(r => r.fechaDev !== null);
-  
-  devueltos.forEach(r => {
-    data.push({
-      id: r.id || '',
-      herramienta: r.herramienta || '',
-      codigo: r.codigo || '',
-      persona: r.persona || '',
-      sector: r.sector || '',
-      fecha_prestamo: r.fecha || '',
-      fecha_devolucion: r.fechaDev || '',
-      dias: r.dias || '',
-      estado: r.estadoDev || '',
-      obs_dev: r.obsDev || ''
-    });
-  });
-  
-  return data;
-}
-
-function getHistorialData() {
-  return historial.map(r => ({
-    id: r.id || '',
-    herramienta: r.herramienta || '',
-    codigo: r.codigo || '',
-    persona: r.persona || '',
-    sector: r.sector || '',
-    fecha: r.fecha || '',
-    fechaDev: r.fechaDev || '',
-    dias: r.dias || '',
-    estadoDev: r.estadoDev || '',
-    obs: r.obs || '',
-    obsDev: r.obsDev || ''
-  }));
-}
-
-// Actualizar estado de sincronización
-function updateSyncStatus(message) {
-  const statusEl = document.getElementById('connectionStatus');
-  if (statusEl) {
-    statusEl.textContent = '🟢 ' + message;
-    statusEl.style.color = 'var(--green)';
-  }
-}
-
-// Inicializar con la URL guardada
-document.addEventListener('DOMContentLoaded', function() {
-  const savedUrl = localStorage.getItem('webAppUrl');
-  if (savedUrl) {
-    document.getElementById('webAppUrl').value = savedUrl;
-  }
-});
-
-// ──────────────────────────────────────────────────────
-// ─── INIT ─────────────────────────────────────────────
-// ──────────────────────────────────────────────────────
-
+// ─── INIT ──────────────────────────────────────────────
 initTema();
 renderEstacion();
 renderStats(); renderPR(); updateCounts();
+
+// Sincronizar al cargar la página
+setTimeout(() => {
+  if (prestamos.length > 0 || historial.length > 0) {
+    syncDataToSheets();
+  }
+}, 2000);
+
+// Sincronizar cada 30 segundos
+setInterval(() => {
+  if (prestamos.length > 0 || historial.length > 0) {
+    syncDataToSheets();
+  }
+}, 30000);
 </script>
 </body>
 </html>
