@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Taller · Préstamos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg:        #0f1117;
+  --surface:   #1a1d27;
+  --surface2:  #21263a;
+  --border:    #2a2f45;
+  --border2:   #333a56;
+  --text:      #e8eaf0;
+  --text2:     #a0a8c0;
+  --muted:     #5c6480;
+  --accent:    #4f7cff;
+  --accent-h:  #3d6aee;
+  --green:     #22c55e;
+  --green-bg:  #0d2a1a;
+  --red:       #f43f5e;
+  --red-bg:    #2a0d14;
+  --yellow:    #f59e0b;
+  --yellow-bg: #2a1e07;
+  --blue-bg:   #0d1a3a;
+  --r:         10px;
+  --r2:        14px;
+}
+
+/* ── TEMA CLARO ── */
+html.light {
+  --bg:        #f1f3f8;
+  --surface:   #ffffff;
+  --surface2:  #f7f8fc;
+  --border:    #e2e5ef;
+  --border2:   #cbd0e0;
+  --text:      #111827;
+  --text2:     #374151;
+  --muted:     #9ca3af;
+  --accent:    #2563eb;
+  --accent-h:  #1d4ed8;
+  --green:     #16a34a;
+  --green-bg:  #dcfce7;
+  --red:       #dc2626;
+  --red-bg:    #fee2e2;
+  --yellow:    #d97706;
+  --yellow-bg: #fef9c3;
+  --blue-bg:   #dbeafe;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* ── FONDO ABSTRACTO ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* formas abstractas con gradientes radiales */
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%,  rgba(79,124,255,.13) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 85% 75%,  rgba(124,58,237,.10) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 60% 10%,  rgba(6,182,212,.07)  0%, transparent 55%),
+    radial-gradient(ellipse 35% 40% at 10% 85%,  rgba(34,197,94,.06)  0%, transparent 50%),
+    radial-gradient(ellipse 55% 30% at 90% 30%,  rgba(244,63,94,.05)  0%, transparent 50%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* ruido sutil de grano */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: .6;
+}
+
+/* en tema claro los orbes son más suaves */
+html.light body::before {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%,  rgba(37,99,235,.08)  0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 85% 75%,  rgba(124,58,237,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 60% 10%,  rgba(6,182,212,.05)  0%, transparent 55%),
+    radial-gradient(ellipse 35% 40% at 10% 85%,  rgba(16,163,74,.04)  0%, transparent 50%),
+    radial-gradient(ellipse 55% 30% at 90% 30%,  rgba(220,38,38,.04)  0%, transparent 50%);
+}
+
+/* el contenido queda por encima del fondo */
+header, .station-bar, .container, .overlay { position: relative; z-index: 1; }
+
+/* ─── HEADER ─── */
+header {
+  background: linear-gradient(180deg, var(--surface2) 0%, var(--surface) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.05) inset,
+    0 4px 20px rgba(0,0,0,.4);
+}
+
+.header-left { display: flex; align-items: center; gap: 12px; }
+
+.logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #4f7cff, #7c3aed);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  box-shadow: 0 0 0 1px rgba(79,124,255,.3), 0 4px 12px rgba(79,124,255,.25);
+}
+
+.header-title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.header-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; letter-spacing: .02em; text-transform: uppercase; }
+
+/* ─── TABS ─── */
+.tabs {
+  display: flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.tab {
+  padding: 7px 20px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .18s;
+  font-family: inherit;
+  display: flex; align-items: center; gap: 7px;
+  letter-spacing: -.01em;
+}
+.tab:hover { color: var(--text2); }
+.tab.active {
+  background: var(--surface2);
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+
+.tab .count {
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px; font-weight: 700;
+  border-radius: 20px;
+  padding: 1px 7px;
+  min-width: 20px; text-align: center;
+  display: none;
+  line-height: 1.6;
+}
+.tab .count.show { display: inline-block; }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1040px; margin: 0 auto; padding: 32px 24px; }
+
+.page { display: none; }
+.page.active { display: block; animation: fadeIn .2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } }
+
+/* ─── STATS ─── */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  flex: 0 1 calc((100% - 32px) / 3);
+  background: linear-gradient(160deg, var(--surface2) 0%, var(--surface) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 22px 24px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 -1px 0 rgba(0,0,0,.3) inset,
+    0 8px 24px rgba(0,0,0,.35),
+    0 2px 4px rgba(0,0,0,.2);
+}
+.stat:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--border2);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.08) inset,
+    0 -1px 0 rgba(0,0,0,.3) inset,
+    0 16px 40px rgba(0,0,0,.45),
+    0 4px 8px rgba(0,0,0,.25);
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--r2) var(--r2) 0 0;
+}
+.stat.s-blue::before  { background: linear-gradient(90deg, var(--accent), #7c3aed); box-shadow: 0 0 12px rgba(79,124,255,.6); }
+.stat.s-red::before   { background: linear-gradient(90deg, var(--red), #f97316);   box-shadow: 0 0 12px rgba(244,63,94,.6); }
+.stat.s-green::before { background: linear-gradient(90deg, var(--green), #06b6d4); box-shadow: 0 0 12px rgba(34,197,94,.6); }
+
+/* reflejo de luz lateral izquierda */
+.stat::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(255,255,255,.12) 0%, transparent 70%);
+}
+
+.stat-n {
+  font-size: 36px; font-weight: 800;
+  line-height: 1; letter-spacing: -.03em;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+.stat.s-blue  .stat-n { color: var(--accent); filter: drop-shadow(0 2px 6px rgba(79,124,255,.5)); }
+.stat.s-red   .stat-n { color: var(--red);    filter: drop-shadow(0 2px 6px rgba(244,63,94,.5)); }
+.stat.s-green .stat-n { color: var(--green);  filter: drop-shadow(0 2px 6px rgba(34,197,94,.5)); }
+
+.stat-l { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+/* ─── CARD ─── */
+.card {
+  background: linear-gradient(160deg, var(--surface2) 0%, var(--surface) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 -2px 0 rgba(0,0,0,.25) inset,
+    1px 0 0 rgba(255,255,255,.04) inset,
+    0 8px 28px rgba(0,0,0,.35),
+    0 2px 6px rgba(0,0,0,.2);
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border2);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.08) inset,
+    0 -2px 0 rgba(0,0,0,.3) inset,
+    1px 0 0 rgba(255,255,255,.05) inset,
+    0 16px 40px rgba(0,0,0,.45),
+    0 4px 10px rgba(0,0,0,.25);
+}
+
+.card-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: linear-gradient(180deg, rgba(255,255,255,.04) 0%, transparent 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.04) inset;
+}
+
+.card-title {
+  font-size: 13.5px; font-weight: 700;
+  color: var(--text); letter-spacing: -.01em;
+  display: flex; align-items: center; gap: 8px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+/* ─── ICONOS 3D ─── */
+.icon-3d {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  filter:
+    drop-shadow(0 2px 0 rgba(0,0,0,.4))
+    drop-shadow(0 4px 8px rgba(0,0,0,.3));
+  transition: transform .2s, filter .2s;
+  line-height: 1;
+}
+.icon-3d:hover {
+  transform: translateY(-2px) scale(1.08);
+  filter:
+    drop-shadow(0 4px 2px rgba(0,0,0,.45))
+    drop-shadow(0 6px 14px rgba(0,0,0,.35));
+}
+.icon-3d-sm {
+  font-size: 18px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.35));
+}
+.stat-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  display: block;
+  filter:
+    drop-shadow(0 3px 0 rgba(0,0,0,.3))
+    drop-shadow(0 5px 10px rgba(0,0,0,.25));
+}
+
+.card-title-icon {
+  width: 30px; height: 30px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.3));
+}
+
+.card-body { padding: 22px; }
+
+/* ─── FORM ─── */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+label {
+  font-size: 11.5px; font-weight: 600;
+  color: var(--text2);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+input, select, textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-bottom: 2px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+  box-shadow:
+    0 2px 0 rgba(0,0,0,.2) inset,
+    0 1px 0 rgba(255,255,255,.04) inset,
+    0 2px 6px rgba(0,0,0,.2);
+}
+input::placeholder { color: var(--muted); }
+input:focus, select:focus {
+  border-color: var(--accent);
+  border-bottom-color: var(--accent-h);
+  box-shadow:
+    0 2px 0 rgba(0,0,0,.15) inset,
+    0 0 0 3px rgba(79,124,255,.18),
+    0 4px 12px rgba(79,124,255,.2);
+  transform: translateY(-1px);
+}
+select option { background: var(--surface2); }
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px;
+  border: none; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+  letter-spacing: -.01em;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 45%;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, transparent 100%);
+  pointer-events: none;
+}
+.btn:hover   { transform: translateY(-2px); filter: brightness(1.1); }
+.btn:active  { transform: translateY(1px); filter: brightness(.95); }
+
+.btn-primary {
+  background: linear-gradient(175deg, #6b96ff 0%, var(--accent) 40%, #3050c8 100%);
+  color: #fff;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.2) inset,
+    0 -2px 0 rgba(0,0,0,.3) inset,
+    0 6px 20px rgba(79,124,255,.45),
+    0 2px 4px rgba(0,0,0,.3);
+  border-bottom: 2px solid #2040a0;
+}
+.btn-success {
+  background: linear-gradient(175deg, #4ade80 0%, #22c55e 40%, #15803d 100%);
+  color: #fff;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.2) inset,
+    0 -2px 0 rgba(0,0,0,.3) inset,
+    0 6px 18px rgba(34,197,94,.4),
+    0 2px 4px rgba(0,0,0,.3);
+  border-bottom: 2px solid #166534;
+}
+.btn-danger {
+  background: linear-gradient(175deg, #fb7185 0%, var(--red) 40%, #9f1239 100%);
+  color: #fff;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.15) inset,
+    0 -2px 0 rgba(0,0,0,.3) inset,
+    0 4px 14px rgba(244,63,94,.35),
+    0 2px 4px rgba(0,0,0,.3);
+  border-bottom: 2px solid #881337;
+  border-left: none; border-right: none; border-top: none;
+}
+.btn-ghost {
+  background: linear-gradient(175deg, var(--surface2) 0%, var(--surface) 100%);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-bottom: 2px solid var(--border2);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 4px 12px rgba(0,0,0,.2);
+}
+.btn-ghost:hover { border-color: var(--border2); color: var(--text); }
+.btn-ghost::after { opacity: .5; }
+.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 7px; }
+
+/* ─── TABLE ─── */
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; }
+
+th {
+  text-align: left;
+  font-size: 10.5px; font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase; letter-spacing: .07em;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  white-space: nowrap;
+}
+
+td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+  vertical-align: middle;
+  color: var(--text2);
+}
+td strong { color: var(--text); font-weight: 600; }
+
+tbody tr { transition: background .1s; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(0,0,0,.02); }
+
+/* ─── BADGES ─── */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .02em; white-space: nowrap;
+}
+.badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.g  { background: var(--green-bg);  color: var(--green);  border: 1px solid rgba(34,197,94,.2);  }
+.g  .badge-dot { background: var(--green); }
+.r  { background: var(--red-bg);    color: var(--red);    border: 1px solid rgba(244,63,94,.2);  }
+.r  .badge-dot { background: var(--red); }
+.b  { background: var(--blue-bg);   color: var(--accent); border: 1px solid rgba(79,124,255,.2); }
+.b  .badge-dot { background: var(--accent); }
+.y  { background: var(--yellow-bg); color: var(--yellow); border: 1px solid rgba(245,158,11,.2); }
+.y  .badge-dot { background: var(--yellow); }
+.gr { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+.gr .badge-dot { background: var(--muted); }
+
+/* ─── SEARCH ─── */
+.search-wrap { position: relative; }
+.search-wrap .ico {
+  position: absolute; left: 11px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted); font-size: 12px; pointer-events: none;
+}
+.search-wrap input { padding-left: 32px; max-width: 240px; }
+
+/* ─── TOOLBAR ─── */
+.toolbar {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 10px; flex-wrap: wrap;
+}
+
+/* ─── EMPTY ─── */
+.empty { padding: 48px; text-align: center; }
+.empty-ico { font-size: 32px; margin-bottom: 10px; filter: grayscale(1) opacity(.4); }
+.empty p { color: var(--muted); font-size: 13px; }
+
+/* ─── TOAST ─── */
+#toast {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  opacity: 0; transform: translateY(14px);
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  z-index: 999;
+  display: flex; align-items: center; gap: 8px;
+}
+#toast::before { content: '✦'; color: var(--accent); font-size: 10px; }
+#toast.show { opacity: 1; transform: translateY(0); }
+#toast.err  { border-color: rgba(244,63,94,.4); }
+#toast.err::before { content: '✕'; color: var(--red); }
+
+/* ─── MODAL ─── */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(6px);
+  z-index: 200; align-items: center; justify-content: center;
+}
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  padding: 30px;
+  width: 92%; max-width: 420px;
+  box-shadow: 0 32px 80px rgba(0,0,0,.6);
+  animation: popIn .2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes popIn {
+  from { transform: scale(.93) translateY(10px); opacity: 0; }
+}
+
+.modal-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 22px;
+}
+.modal-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #22c55e22, #16a34a22);
+  border: 1px solid rgba(34,197,94,.2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.modal-title { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+
+.modal-grid { display: flex; flex-direction: column; gap: 14px; }
+
+.modal-divider {
+  height: 1px; background: var(--border);
+  margin: 6px 0;
+}
+
+/* ─── PILL FILTER ─── */
+.pill-select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: var(--text2);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.pill-select:focus { border-color: var(--accent); }
+
+/* ─── THEME TOGGLE ─── */
+.theme-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .18s;
+  flex-shrink: 0;
+}
+.theme-btn:hover {
+  border-color: var(--border2);
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ─── HEADER RIGHT ─── */
+.header-right {
+  display: flex; align-items: center; gap: 10px;
+}
+/* ─── HEADER RIGHT ─── */
+.header-right {
+  display: flex; align-items: center; gap: 10px;
+}
+
+/* ─── BACKUP BUTTONS ─── */
+.backup-btns {
+  display: flex; gap: 6px;
+}
+.backup-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 13px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  font-family: inherit;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+  letter-spacing: -.01em;
+}
+.backup-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg);
+}
+
+/* ─── STATION BANNER ─── */
+.station-bar {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  background: linear-gradient(135deg, #080e24 0%, #12082e 100%);
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, transparent, #4f7cff, #a78bfa, #4f7cff, transparent) 1;
+  box-shadow: 0 8px 40px rgba(0,0,0,.7), 0 2px 0 rgba(79,124,255,.2);
+  transition: all .3s;
+}
+
+/* rejilla técnica de fondo */
+.station-bar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(79,124,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,124,255,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* viñeta oscura en los bordes */
+.station-bar::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,.6) 100%);
+  pointer-events: none;
+}
+
+/* TEMA CLARO */
+html.light .station-bar {
+  background: linear-gradient(135deg, #dde6f8 0%, #ccd4f0 100%);
+  box-shadow: 0 4px 24px rgba(37,99,235,.15), 0 2px 0 rgba(37,99,235,.15);
+}
+html.light .station-bar::before {
+  background-image:
+    linear-gradient(rgba(37,99,235,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,.08) 1px, transparent 1px);
+}
+html.light .station-bar::after {
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(200,212,240,.5) 100%);
+}
+
+/* contenedor centrado con líneas laterales decorativas */
+.station-bar-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px 40px;
+}
+
+/* líneas laterales tipo "placa técnica" */
+.station-bar-inner::before,
+.station-bar-inner::after {
+  content: '';
+  flex: 1;
+  max-width: 160px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(79,124,255,.5));
+  border-radius: 2px;
+}
+.station-bar-inner::after {
+  background: linear-gradient(270deg, transparent, rgba(79,124,255,.5));
+}
+html.light .station-bar-inner::before {
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,.35));
+}
+html.light .station-bar-inner::after {
+  background: linear-gradient(270deg, transparent, rgba(37,99,235,.35));
+}
+
+/* etiqueta superior "ESTACIÓN CNC" */
+.station-label {
+  position: absolute;
+  top: 10px; left: 50%; transform: translateX(-50%);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(79,124,255,.7);
+  background: rgba(79,124,255,.08);
+  border: 1px solid rgba(79,124,255,.15);
+  border-radius: 20px;
+  padding: 2px 12px;
+  white-space: nowrap;
+  z-index: 2;
+}
+html.light .station-label {
+  color: rgba(37,99,235,.6);
+  background: rgba(37,99,235,.06);
+  border-color: rgba(37,99,235,.15);
+}
+
+/* ── TEXTO 3D ── */
+.station-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(48px, 9vw, 100px);
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+
+  background: linear-gradient(180deg,
+    #ffffff  0%,
+    #c8d8ff 20%,
+    #4f7cff 55%,
+    #1a3a9e 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  filter:
+    drop-shadow(0 2px 0 rgba(10,40,160,.95))
+    drop-shadow(0 4px 0 rgba(8,28,120,.85))
+    drop-shadow(0 6px 0 rgba(5,18,80,.7))
+    drop-shadow(0 8px 0 rgba(3,10,50,.5))
+    drop-shadow(0 12px 0 rgba(2,6,30,.3))
+    drop-shadow(0 16px 32px rgba(79,124,255,.6))
+    drop-shadow(0 28px 56px rgba(79,124,255,.25));
+  transition: filter .3s, transform .2s;
+}
+.station-name:not(.placeholder):hover {
+  transform: scale(1.02);
+  filter:
+    drop-shadow(0 2px 0 rgba(10,40,160,.95))
+    drop-shadow(0 4px 0 rgba(8,28,120,.85))
+    drop-shadow(0 6px 0 rgba(5,18,80,.7))
+    drop-shadow(0 8px 0 rgba(3,10,50,.5))
+    drop-shadow(0 20px 40px rgba(79,124,255,.8))
+    drop-shadow(0 32px 64px rgba(79,124,255,.35));
+}
+
+html.light .station-name {
+  background: linear-gradient(180deg,
+    #1e3a8a  0%,
+    #1d4ed8 35%,
+    #2563eb 65%,
+    #0f2a7a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter:
+    drop-shadow(0 2px 0 rgba(255,255,255,.95))
+    drop-shadow(0 4px 0 rgba(210,225,255,.8))
+    drop-shadow(0 6px 0 rgba(170,195,255,.55))
+    drop-shadow(0 10px 24px rgba(37,99,235,.25));
+}
+
+.station-name.placeholder {
+  font-family: 'Inter', sans-serif;
+  background: none;
+  -webkit-text-fill-color: rgba(79,124,255,.3);
+  font-weight: 400;
+  font-size: clamp(13px, 1.8vw, 16px);
+  font-style: italic;
+  letter-spacing: .03em;
+  text-transform: none;
+  filter: none;
+}
+html.light .station-name.placeholder {
+  -webkit-text-fill-color: rgba(37,99,235,.3);
+}
+
+/* botón editar rediseñado */
+.station-edit-btn {
+  position: absolute;
+  bottom: 10px; right: 16px;
+  background: rgba(79,124,255,.1);
+  border: 1px solid rgba(79,124,255,.2);
+  border-radius: 8px;
+  width: 28px; height: 28px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(79,124,255,.6);
+  transition: all .18s;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
+.station-edit-btn:hover {
+  background: rgba(79,124,255,.2);
+  border-color: rgba(79,124,255,.5);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(79,124,255,.4);
+  transform: scale(1.1);
+}
+html.light .station-edit-btn {
+  background: rgba(37,99,235,.08);
+  border-color: rgba(37,99,235,.2);
+  color: rgba(37,99,235,.5);
+}
+html.light .station-edit-btn:hover {
+  background: rgba(37,99,235,.15);
+  color: #1e3a8a;
+  box-shadow: 0 0 10px rgba(37,99,235,.25);
+}
+
+@media (max-width: 640px) {
+  header { padding: 0 16px; }
+  .header-sub { display: none; }
+  .container { padding: 16px; }
+  .stats { gap: 10px; }
+  .stat { padding: 14px; }
+  .stat-n { font-size: 24px; }
+  .tab { padding: 6px 12px; font-size: 12px; }
+  td, th { padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-left">
+    <div class="logo icon-3d" style="font-size:20px">⚙️</div>
+    <div>
+      <div class="header-title">Préstamos de Herramientas CNC</div>
+      <div class="header-sub">Control de taller</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tabs">
+      <button class="tab active" onclick="goTab('prestamos',this)">
+        🔩 Préstamos <span class="count" id="cnt-pr"></span>
+      </button>
+      <button class="tab" onclick="goTab('historial',this)">
+        📊 Historial <span class="count" id="cnt-hi"></span>
+      </button>
+    </div>
+    <div class="backup-btns">
+      <button class="backup-btn" onclick="exportarDatos()" title="Guardar copia de seguridad">
+        💾 Guardar
+      </button>
+      <label class="backup-btn" title="Restaurar desde archivo">
+        📂 Restaurar
+        <input type="file" id="file-import" accept=".json" onchange="importarDatos(event)" style="display:none" />
+      </label>
+      <button class="backup-btn theme-toggle-btn" id="theme-btn" onclick="toggleTema()" title="Cambiar tema">
+        🌙
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ─── BANNER ESTACIÓN ─── -->
+<div class="station-bar" id="station-bar">
+  <div class="station-label">⚙ Estación CNC</div>
+  <div class="station-bar-inner">
+    <span class="station-name" id="station-display">Sin nombre de estación</span>
+  </div>
+  <button class="station-edit-btn" onclick="editarEstacion()" title="Editar nombre">✏️</button>
+</div>
+
+<div class="container">
+
+  <!-- ══════ TAB PRÉSTAMOS ══════ -->
+  <div id="tab-prestamos" class="page active">
+
+    <div class="stats" id="stats"></div>
+
+    <!-- Formulario -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">🔧</div>
+          Registrar préstamo
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="field">
+            <label>Herramienta *</label>
+            <input id="pr-h" placeholder="Nombre de la herramienta" />
+          </div>
+          <div class="field">
+            <label>Código / Serie</label>
+            <input id="pr-cod" placeholder="Ej: TAL-001" />
+          </div>
+          <div class="field">
+            <label>Persona *</label>
+            <input id="pr-p" placeholder="Nombre del operario" />
+          </div>
+          <div class="field">
+            <label>Máquina destino</label>
+            <input id="pr-sec" placeholder="Torno, Fresadora, Prensa…" />
+          </div>
+          <div class="field" style="grid-column:1/-1">
+            <label>Observaciones</label>
+            <input id="pr-obs" placeholder="Estado al salir, accesorios incluidos…" />
+          </div>
+        </div>
+        <div style="margin-top:18px">
+          <button class="btn btn-primary" onclick="guardarPR()">Registrar préstamo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla activos -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">🏭</div>
+          Préstamos activos
+        </div>
+        <div class="search-wrap">
+          <span class="ico">🔍</span>
+          <input id="q-pr" placeholder="Buscar…" oninput="renderPR()" />
+        </div>
+      </div>
+      <div class="table-wrap" id="tbl-pr"></div>
+    </div>
+  </div>
+
+  <!-- ══════ TAB HISTORIAL ══════ -->
+  <div id="tab-historial" class="page">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <div class="card-title-icon">�️</div>
+          Historial completo
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <div class="search-wrap">
+            <span class="ico">🔍</span>
+            <input id="q-hi" placeholder="Buscar…" oninput="renderHis()" />
+          </div>
+          <select id="fil-hi" class="pill-select" onchange="renderHis()">
+            <option value="">Todos</option>
+            <option value="activo">En préstamo</option>
+            <option value="devuelto">Devueltos</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="limpiarHis()">Limpiar</button>
+        </div>
+      </div>
+      <div class="table-wrap" id="tbl-hi"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── MODAL DEVOLUCIÓN ─── -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon">�</div>
+      <div class="modal-title">Registrar devolución</div>
+    </div>
+    <input type="hidden" id="dev-id" />
+    <div class="modal-grid">
+      <div class="field"><label>Herramienta</label><input id="dev-h" readonly /></div>
+      <div class="field"><label>Persona</label><input id="dev-p" readonly /></div>
+      <div class="modal-divider"></div>
+      <div class="field">
+        <label>Estado al devolver</label>
+        <select id="dev-estado">
+          <option>Bueno</option>
+          <option>Con daños menores</option>
+          <option>Requiere reparación</option>
+          <option>Dañada</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Observaciones</label>
+        <input id="dev-obs" placeholder="Notas sobre la devolución…" />
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:22px">
+      <button class="btn btn-success" onclick="confirmarDev()">Confirmar devolución</button>
+      <button class="btn btn-ghost" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ─── MODAL NOMBRE ESTACIÓN ─── -->
+<div class="overlay" id="modal-station">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon">⚙️</div>
+      <div class="modal-title">Nombre de estación CNC</div>
+    </div>
+    <div class="modal-grid">
+      <div class="field">
+        <label>Nombre visible</label>
+        <input id="station-input" placeholder="Ej: Taller Central, Línea 3, Sector A…"
+          onkeydown="if(event.key==='Enter') guardarEstacion()" />
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:22px">
+      <button class="btn btn-primary" onclick="guardarEstacion()">Guardar</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('modal-station').classList.remove('open')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const S = {
+  load: k => JSON.parse(localStorage.getItem(k) || '[]'),
+  save: (k, v) => localStorage.setItem(k, JSON.stringify(v))
+};
+let prestamos = S.load('pr2');
+let historial = S.load('hi4');
+
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const hoy = () => new Date().toISOString().slice(0,10);
+
+// ── TABS ──
+function goTab(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+  if (id === 'prestamos') { renderStats(); renderPR(); }
+  if (id === 'historial') renderHis();
+}
+
+// ── TOAST ──
+let _t;
+function toast(msg, err = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show' + (err ? ' err' : '');
+  clearTimeout(_t);
+  _t = setTimeout(() => el.className = '', 2800);
+}
+
+// ── CONTADORES ──
+function updateCounts() {
+  const cpr = document.getElementById('cnt-pr');
+  const chi = document.getElementById('cnt-hi');
+  cpr.textContent = prestamos.length;
+  cpr.className   = 'count' + (prestamos.length ? ' show' : '');
+  chi.textContent = historial.length;
+  chi.className   = 'count' + (historial.length ? ' show' : '');
+}
+
+// ── STATS ──
+function renderStats() {
+  const devueltos = historial.filter(r => r.fechaDev).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat s-blue">
+      <span class="stat-icon">🔩</span>
+      <div class="stat-n">${prestamos.length}</div>
+      <div class="stat-l">Préstamos activos</div>
+    </div>
+    <div class="stat s-green">
+      <span class="stat-icon">✅</span>
+      <div class="stat-n">${devueltos}</div>
+      <div class="stat-l">Devueltos</div>
+    </div>
+  `;
+}
+
+// ── PRÉSTAMOS ──
+function guardarPR() {
+  const herramienta = document.getElementById('pr-h').value.trim();
+  const persona     = document.getElementById('pr-p').value.trim();
+  if (!herramienta) { toast('Ingresá el nombre de la herramienta.', true); return; }
+  if (!persona)     { toast('Ingresá el nombre de la persona.', true); return; }
+
+  const reg = {
+    id:         uid(),
+    herramienta,
+    codigo:     document.getElementById('pr-cod').value.trim(),
+    persona,
+    sector:     document.getElementById('pr-sec').value.trim(),
+    fecha:      hoy(),
+    obs:        document.getElementById('pr-obs').value.trim(),
+    fechaDev:   null,
+    dias:       null,
+    estadoDev:  null,
+    obsDev:     null,
+  };
+
+  prestamos.push({ ...reg });
+  historial.push(reg);
+  S.save('pr2', prestamos);
+  S.save('hi4', historial);
+
+  ['pr-h','pr-cod','pr-p','pr-sec','pr-obs'].forEach(i => document.getElementById(i).value = '');
+  renderStats(); renderPR(); updateCounts();
+  toast('Préstamo registrado.');
+}
+
+function renderPR() {
+  const q  = document.getElementById('q-pr').value.toLowerCase();
+  const el = document.getElementById('tbl-pr');
+  const lista = prestamos.filter(p =>
+    p.herramienta.toLowerCase().includes(q) ||
+    p.persona.toLowerCase().includes(q) ||
+    (p.sector||'').toLowerCase().includes(q) ||
+    (p.codigo||'').toLowerCase().includes(q)
+  );
+
+  if (!lista.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-ico">📋</div><p>Sin préstamos activos</p></div>';
+    return;
+  }
+
+  const rows = lista.map(pr => `
+  <tr>
+    <td>
+      <strong>${pr.herramienta}</strong>
+      ${pr.codigo ? `<div style="font-size:11.5px;color:var(--muted);margin-top:2px">${pr.codigo}</div>` : ''}
+    </td>
+    <td>
+      <span style="color:var(--text)">${pr.persona}</span>
+      ${pr.sector ? `<div style="font-size:11.5px;color:var(--muted);margin-top:2px">📍 ${pr.sector}</div>` : ''}
+    </td>
+    <td style="font-variant-numeric:tabular-nums">${pr.fecha}</td>
+    <td>${pr.obs ? `<span style="font-size:12px">${pr.obs}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
+    <td>
+      <button class="btn btn-success btn-sm" onclick="abrirModal('${pr.id}')">Devolver</button>
+    </td>
+  </tr>`).join('');
+
+  el.innerHTML = `<table>
+    <thead><tr>
+      <th>Herramienta</th>
+      <th>Persona / Máq. destino</th>
+      <th>F. Préstamo</th>
+      <th>Observaciones</th>
+      <th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// ── MODAL ──
+function abrirModal(id) {
+  const pr = prestamos.find(p => p.id === id); if (!pr) return;
+  document.getElementById('dev-id').value     = id;
+  document.getElementById('dev-h').value      = pr.herramienta + (pr.codigo ? ' [' + pr.codigo + ']' : '');
+  document.getElementById('dev-p').value      = pr.persona + (pr.sector ? ' — ' + pr.sector : '');
+  document.getElementById('dev-estado').value = 'Bueno';
+  document.getElementById('dev-obs').value    = '';
+  document.getElementById('modal').classList.add('open');
+}
+function cerrarModal() { document.getElementById('modal').classList.remove('open'); }
+
+function confirmarDev() {
+  const id     = document.getElementById('dev-id').value;
+  const estado = document.getElementById('dev-estado').value;
+  const obs    = document.getElementById('dev-obs').value.trim();
+  const fecha  = hoy();
+  const pr = prestamos.find(p => p.id === id); if (!pr) return;
+  const dias = Math.round((new Date(fecha) - new Date(pr.fecha)) / 86400000);
+
+  const reg = historial.find(r => r.id === id);
+  if (reg) { reg.fechaDev = fecha; reg.dias = dias; reg.estadoDev = estado; reg.obsDev = obs; }
+  S.save('hi4', historial);
+
+  prestamos = prestamos.filter(p => p.id !== id);
+  S.save('pr2', prestamos);
+
+  cerrarModal(); renderStats(); renderPR(); updateCounts();
+  toast('Devolución registrada.');
+}
+
+// ── HISTORIAL ──
+function renderHis() {
+  const q   = document.getElementById('q-hi').value.toLowerCase();
+  const fil = document.getElementById('fil-hi').value;
+  const el  = document.getElementById('tbl-hi');
+
+  const lista = [...historial].reverse().filter(r => {
+    const txt    = (r.herramienta + r.persona + (r.sector||'')).toLowerCase();
+    const matchQ = txt.includes(q);
+    const matchF = !fil || (fil==='activo' && !r.fechaDev) || (fil==='devuelto' && r.fechaDev);
+    return matchQ && matchF;
+  });
+
+  if (!lista.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-ico">📜</div><p>Sin registros</p></div>';
+    return;
+  }
+
+  const estadoBadge = e => {
+    if (!e)                        return `<span class="badge b"><span class="badge-dot"></span>En préstamo</span>`;
+    if (e === 'Bueno')             return `<span class="badge g"><span class="badge-dot"></span>${e}</span>`;
+    if (e === 'Con daños menores') return `<span class="badge y"><span class="badge-dot"></span>${e}</span>`;
+    return `<span class="badge r"><span class="badge-dot"></span>${e}</span>`;
+  };
+
+  const rows = lista.map(r => `
+  <tr>
+    <td>
+      <strong>${r.herramienta}</strong>
+      ${r.codigo ? `<div style="font-size:11.5px;color:var(--muted);margin-top:2px">${r.codigo}</div>` : ''}
+    </td>
+    <td>
+      <span style="color:var(--text)">${r.persona}</span>
+      ${r.sector ? `<div style="font-size:11.5px;color:var(--muted);margin-top:2px">📍 ${r.sector}</div>` : ''}
+    </td>
+    <td style="font-variant-numeric:tabular-nums">${r.fecha}</td>
+    <td style="font-variant-numeric:tabular-nums">
+      ${r.fechaDev
+        ? r.fechaDev
+        : '<span class="badge gr"><span class="badge-dot"></span>Pendiente</span>'}
+    </td>
+    <td style="color:var(--muted)">
+      ${r.dias != null ? `${r.dias}d` : '—'}
+    </td>
+    <td>${estadoBadge(r.estadoDev)}</td>
+    <td>
+      ${r.obs    ? `<div style="font-size:11.5px;margin-bottom:2px">📤 ${r.obs}</div>` : ''}
+      ${r.obsDev ? `<div style="font-size:11.5px">📥 ${r.obsDev}</div>` : ''}
+      ${!r.obs && !r.obsDev ? '<span style="color:var(--muted)">—</span>' : ''}
+    </td>
+    <td>
+      <button class="btn btn-danger btn-sm" onclick="eliminarHis('${r.id}')" title="Eliminar registro">✕</button>
+    </td>
+  </tr>`).join('');
+
+  el.innerHTML = `<table>
+    <thead><tr>
+      <th>Herramienta</th>
+      <th>Persona / Máq. destino</th>
+      <th>F. Préstamo</th>
+      <th>F. Devolución</th>
+      <th>Días</th>
+      <th>Estado</th>
+      <th>Notas</th>
+      <th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function eliminarHis(id) {
+  historial = historial.filter(r => r.id !== id);
+  S.save('hi4', historial);
+  renderHis(); updateCounts();
+  toast('Registro eliminado.');
+}
+
+function limpiarHis() {
+  if (!historial.length) { toast('El historial ya está vacío.'); return; }
+  if (!confirm('¿Limpiar todo el historial?')) return;
+  historial = []; S.save('hi4', historial);
+  renderHis(); updateCounts(); toast('Historial limpiado.');
+}
+
+// ── BACKUP / RESTORE ──
+function exportarDatos() {
+  const data = {
+    version:   2,
+    exportado: new Date().toISOString(),
+    estacion:  localStorage.getItem('estacion') || '',
+    prestamos,
+    historial,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const fecha = new Date().toISOString().slice(0,10);
+  a.href     = url;
+  a.download = `prestamos-taller-${fecha}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Copia guardada.');
+}
+
+function importarDatos(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!Array.isArray(data.prestamos) || !Array.isArray(data.historial)) {
+        toast('Archivo inválido.', true); return;
+      }
+      if (!confirm(`¿Restaurar datos desde "${file.name}"?\nSe reemplazarán los datos actuales.`)) return;
+      prestamos = data.prestamos;
+      historial = data.historial;
+      S.save('pr2', prestamos);
+      S.save('hi4', historial);
+      if (data.estacion) {
+        localStorage.setItem('estacion', data.estacion);
+        renderEstacion();
+      }
+      renderStats(); renderPR(); updateCounts();
+      // refrescar historial si está visible
+      if (document.getElementById('tab-historial').classList.contains('active')) renderHis();
+      toast('Datos restaurados correctamente.');
+    } catch {
+      toast('No se pudo leer el archivo.', true);
+    }
+    e.target.value = ''; // reset input para permitir re-importar el mismo archivo
+  };
+  reader.readAsText(file);
+}
+
+// ── ESTACIÓN ──
+function renderEstacion() {
+  const nombre  = localStorage.getItem('estacion') || '';
+  const display = document.getElementById('station-display');
+  if (nombre) {
+    display.textContent = nombre;
+    display.className   = 'station-name';
+  } else {
+    display.textContent = 'Tocá ✏️ para ingresar el nombre de la estación';
+    display.className   = 'station-name placeholder';
+  }
+}
+
+function editarEstacion() {
+  document.getElementById('station-input').value = localStorage.getItem('estacion') || '';
+  document.getElementById('modal-station').classList.add('open');
+  setTimeout(() => document.getElementById('station-input').focus(), 80);
+}
+
+function guardarEstacion() {
+  const val = document.getElementById('station-input').value.trim();
+  localStorage.setItem('estacion', val);
+  document.getElementById('modal-station').classList.remove('open');
+  renderEstacion();
+  toast('Nombre de estación guardado.');
+}
+
+// ── TEMA ──
+function toggleTema() {
+  const isLight = document.documentElement.classList.toggle('light');
+  localStorage.setItem('tema', isLight ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isLight ? '☀️' : '🌙';
+}
+function initTema() {
+  const guardado = localStorage.getItem('tema');
+  const prefLight = guardado ? guardado === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+  if (prefLight) {
+    document.documentElement.classList.add('light');
+    document.getElementById('theme-btn').textContent = '☀️';
+  }
+}
+
+// ── INIT ──
+initTema();
+renderEstacion();
+renderStats(); renderPR(); updateCounts();
+</script>
+</body>
+</html>
